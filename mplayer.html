@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Music Player</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	.container{
+		height: 100vh;
+		width: 100vw;
+		display: grid;
+		place-items:center;
+		background-image: linear-gradient(to right, #7400b8 , #80ffdb);
+		color: #fee440;
+	}
+	.mid_cont{
+		height: 400px;
+		width: 350px;
+		background-image: linear-gradient(to right, #80ffdb , #7400b8);
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		flex-direction: column;
+		box-shadow: 0 0 5px 5px #80ffdb;
+	}
+	.cont_img img{
+		width: 200px;
+		height: 200px;
+		border-radius: 50%;
+	}
+	.control{
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		width: 250px;
+	}
+	.control i{
+		font-size: 35px;
+		color: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #fee440;
+	}
+	.artist{
+		text-align: center;
+	}
+	.anime{
+		animation: rot 3s linear infinite;
+	}
+	@keyframes rot{
+		from{
+			transform: rotate(0deg);
+			}to{
+				transform: rotate(360deg);
+			}
+	}
+</style>
+<body>
+
+<div class="container">
+	<div class="mid_cont">
+		<div class="artist">
+			<h2 id="title">amplifier</h2>
+			<h2 id="artist">Abhijeet Negi 1</h2>
+		</div>
+		<div class="cont_img">
+			<img id="c_img" src="../images/user.jpg">
+		</div>
+		<div class="control">
+			<i id="prev" class="fa fa-caret-left" aria-hidden="true"></i>
+			<i id="play" class="fa fa-stop" aria-hidden="true"></i>
+			<audio src="../songs/amplifier.mp3"></audio>
+			<i id="next" class="fa fa-caret-right" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	const title=document.getElementById('title');
+	const artist=document.getElementById('artist');
+	const c_img=document.getElementById('c_img');
+	const song=document.querySelector("audio");
+	const play=document.getElementById('play');
+	const prev=document.getElementById('prev');
+	const next=document.getElementById('next');
+	const music=[
+	{
+		title:'amplifier',
+		artist:'Abhijeet Negi 1',
+		c_img:'user',
+		song:'amplifier'
+		},{
+			title:'gabru',
+			artist:'Abhijeet Negi 2',
+			c_img:'user',
+			song:'gabru'
+		},{
+			title:'gaddi',
+			artist:'Abhijeet Negi 3',
+			c_img:'user',
+			song:'gaddi'
+		},{
+			title:'music',
+			artist:'Abhijeet Negi 4',
+			c_img:'user',
+			song:'music'
+	}];
+
+
+
+	let isPlay= false;
+	const playm=()=>{
+		isPlay=true;
+		song.play();
+		c_img.classList.add('anime');
+		play.classList.replace('fa-stop','fa-pause');
+	}
+	const pausem=()=>{
+		isPlay=false;
+		song.pause();
+		c_img.classList.remove('anime');
+		play.classList.replace('fa-pause','fa-stop');
+	}
+	play.addEventListener("click", () =>{
+		if(isPlay){
+			pausem();
+		}else{
+			playm();
+		}
+	});	
+
+
+	function loadSong(music){
+		title.textContent=music.title;
+		artist.textContent=music.artist;
+		song.src="../songs/"+music.song+".mp3";
+		c_img.src="../images/"+music.c_img+".jpg";
+	};
+	i=0;
+	const nextSong = () =>{
+		console.log("no");
+		i=(i+1) % music.length;
+		loadSong(music[i]);
+		playm();
+
+	};
+	const prevSong = () =>{
+		i=(i-1 + music.length) % music.length;
+		loadSong(music[i]);
+		playm();
+	};
+
+	next.addEventListener("click",nextSong);
+	prev.addEventListener("click",prevSong);
+</script>
+</body>
+</html>
